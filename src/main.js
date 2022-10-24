@@ -5,9 +5,14 @@ import 'ant-design-vue/dist/antd.css';
 import router from './router/index'
 import store from './store/index'
 import './api/mock'
+import http from 'axios'
+import moment from 'moment'
 
+moment.locale('zh-cn')
+Vue.prototype.$moment = moment
 Vue.use(Antd);
 Vue.config.productionTip = false
+Vue.prototype.$http = http
 
 new Vue({
   router,
