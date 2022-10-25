@@ -1,8 +1,8 @@
 <template>
   <div>
     <a-card>
-      <a-form-model layout="inline" :model="formInline" style="align: center">
-        <a-form-model-item label="姓名">
+      <a-form-model layout="inline" :model="formInline" style="margin:0 auto">
+        <a-form-model-item label="姓名或地址">
           <a-input v-model="formInline.name" placeholder="name">
             <a-icon slot="prefix" type="user" />
           </a-input>
@@ -23,7 +23,7 @@
             type="primary"
             html-type="submit"
             style="margin-left: 12px"
-            @click="toSearch(formInline.name)"
+            @click="initUserList(formInline.name)"
           >
             查询
           </a-button>
@@ -180,9 +180,12 @@ export default {
       form: this.$form.createForm(this),
       visible: false,
       selectedRowKeys: [],
-      config: {
-        page: 1,
-        total: 30,
+      configPage:{
+        page:1,
+        total:30,
+        pageStart:'',
+        pageNums:'',
+
       },
     };
   },
@@ -190,9 +193,9 @@ export default {
     pagination() {
       return {
         size: "default",
-        current: (this.dataSourcePage && this.dataSourcePage.pageStart) || 1,
-        pageSize: (this.dataSourcePage && this.dataSourcePage.pageNums) || 10,
-        total: (this.dataSourcePage && this.dataSourcePage.total) || 0,
+        current: (this.configPage && this.configPage.pageStart) || 1,
+        pageSize: (this.configPage && this.configPage.pageNums) || 10,
+        total: (this.configPage && this.configPage.total) || 0,
         showSizeChanger: true,
         showLessItems: true,
         showTotal: (total, range) =>
@@ -237,19 +240,20 @@ export default {
         this.restDrawer();
       }
     },
-    toSearch(name = "") {
-      name ? (this.config.page = 1) : "";
-      getUserList({
-        page: this.config.page,
-        name,
-      }).then(({ data: res }) => {
-        console.log(res, "res");
-        this.userList = res.list.map((item) => {
-          return item;
-        });
-        this.config.total = res.count;
-      });
-    },
+    // toSearch(name = "") {
+    //   console.log('开始查找',name)
+    //         name ? (this.configPage.page = 1) : ''
+    //         getUserList({
+    //             page: this.configPage.page,
+    //             name
+    //         }).then(({ data: res }) => {
+    //             console.log('res', res)
+    //             this.userList = res.list.map(item => {
+    //                 return item
+    //             })
+    //             this.configPage.total = res.count
+    //         })
+    // },
     // 删除用户信息
     delUser(item) {
       const id = item.id;
@@ -273,16 +277,29 @@ export default {
     // 重置查询条件
     restSearch() {
       this.formInline.name = "";
+      this.initUserList();
     },
     // 初始化用户数据
-    initUserList() {
-      getUserList().then((data) => {
-        this.userList = data.data.list;
-      });
+    initUserList(name='') {
+            name ? (this.configPage.page = 1) : ''
+            getUserList({
+                page: this.configPage.page,
+                name
+            }).then(({ data: res }) => {
+                console.log('res', res)
+                this.userList = res.list.map(item => {
+                    return item
+                })
+                this.configPage.total = res.length
+            })
+      // getUserList().then((data) => {
+      //   this.userList = data.data.list;
+      // });
     },
     onClose() {
       this.visible = false;
       this.restDrawer();
+      this.initUserList();
     },
     onSelectChange(selectedRowKeys) {
       // console.log('selectedRowKeys changed: ', selectedRowKeys);
@@ -301,11 +318,13 @@ export default {
       });
     },
     async onPageChange(page, size) {
+      this.configPage.pageStart=page,
+      this.configPage.pageNums=size,
       await this.initUserList({
-        pageStart: page,
-        pageNums: size,
+      
       });
       console.log('改变页面')
+      console.log('pageSize',page,size)
     },
   },
 };
