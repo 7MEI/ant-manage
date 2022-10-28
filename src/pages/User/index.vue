@@ -1,10 +1,9 @@
 <template>
   <div>
-    <a-card>
-      <a-form-model layout="inline" :model="formInline" style="margin:0 auto">
-        <a-form-model-item label="姓名或地址">
-          <a-input v-model="formInline.name" placeholder="name">
-            <a-icon slot="prefix" type="user" />
+    <a-card title="用户信息列表">
+      <div style="display:flex;justify-content:center"> <a-form-model layout="inline" :model="formInline" style="margin:0 auto">
+        <a-form-model-item label="姓名或地址:">
+          <a-input v-model="formInline.name" >
           </a-input>
         </a-form-model-item>
         <!-- <a-form-model-item label="性别">
@@ -39,7 +38,8 @@
             批量删除
           </a-button>
         </a-form-model-item>
-      </a-form-model>
+      </a-form-model></div>
+     
       <!-- 表格 -->
       <a-table
         :row-selection="{
@@ -65,7 +65,7 @@
         <span slot="action" slot-scope="text, record">
           <a>Invite 一 {{ record.name }}</a>
           <a-divider type="vertical" />
-          <a @click="showDrawer('edit', record)">编辑</a>
+          <a-button type="primary" ghost @click="showDrawer('edit', record)" >编辑</a-button>
           <a-divider type="vertical" />
           <a-popconfirm
             title="是否确定删除此项数据?"
@@ -74,13 +74,13 @@
             @confirm="delUser(record)"
             @cancel="cancel"
           >
-            <a>删除</a>
+            <a-button type="danger" ghost>删除</a-button>
           </a-popconfirm>
         </span>
       </a-table>
       <!-- 添加、编辑抽屉 -->
       <a-drawer
-        :title="isEdit ? '编辑用户信息' : '添加用户'"
+        :title="isEdit ? '编辑用户信息' : '添加用户信息'"
         :width="720"
         :visible="visible"
         :body-style="{ paddingBottom: '80px' }"
@@ -96,8 +96,8 @@
             <a-col :span="12">
               <a-form-item label="年龄:">
                 <a-input
-                  number
-                  v-model="drawerForm.age"
+                type="number"
+                  v-model.number="drawerForm.age"
                   style="width: 100%"
                   placeholder="请输入年龄"
                 />
@@ -225,15 +225,15 @@ export default {
     // 提交添加 编辑
     commit() {
       if (this.isEdit == false) {
-        this.$http.post("api/user/createUser", this.drawerForm).then((res) => {
-          console.log("res", res);
+        this.$http.post("api/user/createUser", this.drawerForm).then(() => {
+          // console.log("res", res);
           this.visible = false;
           this.initUserList();
         });
         this.restDrawer();
       } else {
-        this.$http.post("api/user/updateUser", this.drawerForm).then((res) => {
-          console.log("res", res);
+        this.$http.post("api/user/updateUser", this.drawerForm).then(() => {
+          // console.log("res", res);
           this.visible = false;
           this.initUserList();
         });

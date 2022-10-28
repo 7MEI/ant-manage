@@ -1,13 +1,10 @@
 <template>
-  <div>我是Mall</div>
+  <div>我是页面1</div>
 </template>
 
 <script>
 export default {
-  name:'Mall',
-    mounted(){
- console.log("商品")
-},
+name:'pageOne',
 }
 </script>
 

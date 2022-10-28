@@ -1,6 +1,7 @@
 import Mock from 'mockjs'
 import homeApi from './mockData/home'  
 import userApi from './mockData/user'
+import menuApi from './mockData/menu'
 
 // 定义mock请求拦截
 Mock.mock(/home\/getData/,'get' ,homeApi.getStatisticalData)
@@ -11,3 +12,6 @@ Mock.mock('api/user/deleteUser','post',userApi.deleteUser)
 // 批量删除
 Mock.mock('api/user/batchremove','post',userApi.batchremove)
 Mock.mock('api/user/updateUser','post',userApi.updateUser)
+
+
+Mock.mock(/menu\/getMenu/,'post',menuApi.getMenu)

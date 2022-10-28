@@ -1,10 +1,10 @@
 import axios from 'axios'
 
 const http = axios.create({
-    baseURL:'/api/',
+    baseURL:'https://api-hmugo-web.itheima.net/api',
+    // baseURL:'/api/',
     timeout:10000,
 })
-
 
 // 添加请求拦截器
 http.interceptors.request.use(function (config) {
