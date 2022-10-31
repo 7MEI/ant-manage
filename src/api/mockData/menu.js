@@ -13,21 +13,21 @@ export default {
               path: '/home',
               name: 'home',
               label: '首页',
-              icon: 's-home',
+              icon: 'area-chart',
               url: 'Home/index'
             },
             {
               path: '/mall',
               name: 'mall',
               label: '商品管理',
-              icon: 'video-play',
+              icon: 'transaction',
               url: 'Mall/index'
             },
             {
               path: '/user',
               name: 'user',
               label: '用户管理',
-              icon: 'user',
+              icon: 'usergroup-delete',
               url: 'User/index'
             },
             {
@@ -38,14 +38,14 @@ export default {
                   path: '/page1',
                   name: 'page1',
                   label: '页面1',
-                  icon: 'setting',
+                  icon: 'alibaba',
                   url: 'Other/pageOne.vue'
                 },
                 {
                   path: '/page2',
                   name: 'page2',
                   label: '页面2',
-                  icon: 'setting',
+                  icon: 'yuque',
                   url: 'Other/pageTwo.vue'
                 }
               ]
